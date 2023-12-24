@@ -7,6 +7,7 @@ class fraction{
     friend fraction stringToFraction(const std::string& str);
     friend double operator*(double n,const fraction &obj) {return (n*obj.num/obj.den);}
     friend double operator*=(double n,const fraction &obj) {n=n*obj;return n;}
+    friend fraction abs(fraction obj) {if(obj.num<0) obj.num=-obj.num; return obj;}
     private:
     __int128_t num;
     __int128_t den;
@@ -38,6 +39,8 @@ class fraction{
     bool operator < (const fraction &other) const;
     bool operator >= (const fraction &other) const;
     bool operator <= (const fraction &other) const;
+
+    operator double() const {return num/den;}
 
     friend std::ostream& operator<<(std::ostream& os,const fraction &obj);
     friend std::istream& operator>>(std::istream& is,fraction &obj);
