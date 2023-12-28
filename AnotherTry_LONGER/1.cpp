@@ -1,6 +1,6 @@
 #include<iostream>
 #include"SolveMatrix.h"
-#include"matrix.cpp"
+#include"matrix.h"
 #include"create.h"
 #include<fstream>
 using namespace std;

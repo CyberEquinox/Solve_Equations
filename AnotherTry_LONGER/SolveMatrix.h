@@ -3,6 +3,7 @@
 #include"matrix.cpp"
 #include<iostream>
 #include<iomanip>
+#include"double_matrix.h"
 struct coordinate
 {
     int x=0;//Row
@@ -237,7 +238,6 @@ void SolveMatrix::Ortho(matrix& max_matrix,ostream& os)
         row add_row(max_matrix.GetCols());
         for(int j=0;j<i;j++)
         {
-            fraction debug = max_matrix[j].abs_2();
             add_row += max_matrix[j] * ((max_matrix[j] * max_matrix[i]) / (max_matrix[j].abs_2()));
         }
         max_matrix[i] -= add_row;
