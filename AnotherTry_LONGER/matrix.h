@@ -43,7 +43,10 @@ class row
     row operator -= (const row& obj);
     row operator *= (const fraction& obj);
     row operator /= (const fraction& obj);
-
+    
+    fraction operator * (const row& obj) const;
+    fraction abs_2() const;
+    
     row operator -() const;
     row operator +() const;
 
