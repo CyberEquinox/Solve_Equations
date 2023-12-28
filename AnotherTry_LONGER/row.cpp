@@ -122,10 +122,10 @@ fraction row::operator * (const row& obj) const
     {
         throw std::runtime_error("Size difference in row * row");
     }
-    fraction res=1;
+    fraction res=0;
     for(int i=0;i<size;i++)
     {
-        res *= Row[i]*obj[i];
+        res += Row[i]*obj[i];
     }
     return res;
 }

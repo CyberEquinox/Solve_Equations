@@ -11,7 +11,7 @@ int main()
     int ID[]={5,2,3,0,3,1,9,1,0,0,1,8};
     generateMatrix(ID,Equations,12);
     SolveMatrix Solve(Equations);
-    Solve.SolveEquations(file,12);
+    Solve.SolveEquations(file,22);
     file.close();
     return 0;
 }

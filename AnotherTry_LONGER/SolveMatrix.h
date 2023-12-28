@@ -2,6 +2,7 @@
 #define SOLVEMATRIX_H
 #include"matrix.cpp"
 #include<iostream>
+#include<iomanip>
 struct coordinate
 {
     int x=0;//Row
@@ -14,6 +15,7 @@ class SolveMatrix
 {
 private:
     matrix MAT;//待解的矩阵
+    matrix Oth_Matrix;
     coordinate *mainptr=nullptr;//主元位置
     int CountOfMain=0;//主元的个数(从1开始)
     void MatSwap(int i,int j);//交换矩阵两行
@@ -21,7 +23,9 @@ private:
     void TurnAColToZero(int StartRow,int Col);
     bool Fist=0;//是否完成第一步
     bool Second=0;//是否完成第二步
+    bool Third=0;
     fraction DET=1;//行列式的值
+    void Ortho(matrix& max_matrix, ostream& os);
 public:
     SolveMatrix(matrix& Oril);
     ~SolveMatrix();
@@ -29,9 +33,10 @@ public:
     void SecondStep(ostream& os);
     void ThirdStep(ostream& os);
     void SolveEquations(ostream& os,int num);
+    void Oth(ostream& os);
 };
 
-SolveMatrix::SolveMatrix(matrix& Oril):DET(1),MAT(Oril)
+SolveMatrix::SolveMatrix(matrix& Oril):DET(1),MAT(Oril),Oth_Matrix(Oril)
 {
     mainptr=new coordinate[MAT.GetCols()+2];
 }
@@ -185,6 +190,7 @@ void SolveMatrix::SolveEquations(ostream& os=std::cout,int num=0)
         std::cout<<"\nERROR : DISTANCE < 0"<<endl;
         return;
     }
+    Third = 1;
     int temp=DISTANCE;
     DISTANCE=num;
     FistStep(os);
@@ -195,7 +201,54 @@ void SolveMatrix::SolveEquations(ostream& os=std::cout,int num=0)
     }
     //os<<DET<<endl;//Debug
     ThirdStep(os);
+    Oth(os);
     DISTANCE=temp;
 }
+
+void SolveMatrix::Oth(ostream& os)
+{
+    if(CountOfMain == 0)
+    {
+        os<<"ERROR:No main ele";
+        return;
+    }
+    matrix Max_independence(CountOfMain,Oth_Matrix.GetRows());
+    for(int i=0;i<CountOfMain;i++)
+    {
+        for(int j=0;j<Oth_Matrix.GetRows();j++)
+        {
+            Max_independence[i][j] = Oth_Matrix[j][mainptr[i].y];
+        }
+    }
+    os<<"Maximal linearly independent subset:"<<std::endl;
+    for(int i=0;i<Max_independence.GetRows();i++)
+    {
+        os << "alpha["<<i+1<<"]=(\t"<<Max_independence[i]<<")"<<endl;
+    }
+    Ortho(Max_independence,os);
+}
+
+void SolveMatrix::Ortho(matrix& max_matrix,ostream& os)
+{   
+    row max_matrix_abs2s(max_matrix.GetRows());
+    max_matrix_abs2s[0] = max_matrix[0].abs_2();
+    for(int i=1;i<max_matrix.GetRows();i++)
+    {
+        row add_row(max_matrix.GetCols());
+        for(int j=0;j<i;j++)
+        {
+            fraction debug = max_matrix[j].abs_2();
+            add_row += max_matrix[j] * ((max_matrix[j] * max_matrix[i]) / (max_matrix[j].abs_2()));
+        }
+        max_matrix[i] -= add_row;
+        max_matrix_abs2s[i] = max_matrix[i].abs_2();
+    }
+    os << "Maximal linearly independent subset after schmidt orthogonalization:" <<endl;
+    for(int i = 0; i < max_matrix.GetRows(); i++)
+    {
+        os << "Beta["<<i+1<<"]=xsqrt("<<max_matrix_abs2s[i].T()<<")"<<setw(DISTANCE)<<"*"<<setw(DISTANCE)<<"("<<max_matrix[i]<<")"<<endl;
+    }
+}
+
 
 #endif
