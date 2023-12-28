@@ -129,4 +129,11 @@ fraction row::operator * (const row& obj) const
     }
     return res;
 }
+
+fraction row::abs_2() const
+{
+    fraction res=*this * *this; 
+    return res;
+}
+
 #endif
