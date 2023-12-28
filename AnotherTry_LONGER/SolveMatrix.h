@@ -174,6 +174,7 @@ void SolveMatrix::ThirdStep(std::ostream& os)
             Current_Count++;
         }
     }
+    os<<"For the Equations: Ax=0:\n";
     os<<"The equation has multiple roots\nThe common root is as follows (There t[i] is any value):\nX^T = \n";
     for(int i=0;i<CountOfRoot;i++)
     {
@@ -194,12 +195,14 @@ void SolveMatrix::SolveEquations(ostream& os=std::cout,int num=0)
     Third = 1;
     int temp=DISTANCE;
     DISTANCE=num;
+    os << "Here are the steps to simplify\n";
     FistStep(os);
     SecondStep(os);
     if(MAT.GetCols()==MAT.GetRows())
     {
         os<<"Det = "<<DET<<std::endl;
     }
+    os<<"H = \n"<<MAT<<"The steps are as above"<<endl;
     //os<<DET<<endl;//Debug
     ThirdStep(os);
     Oth(os);
@@ -246,7 +249,7 @@ void SolveMatrix::Ortho(matrix& max_matrix,ostream& os)
     os << "Maximal linearly independent subset after schmidt orthogonalization:" <<endl;
     for(int i = 0; i < max_matrix.GetRows(); i++)
     {
-        os << "Beta["<<i+1<<"]=xsqrt("<<max_matrix_abs2s[i].T()<<")"<<setw(DISTANCE)<<"*"<<setw(DISTANCE)<<"("<<max_matrix[i]<<")"<<endl;
+        os << "Beta["<<i+1<<"]=sqrt("<<max_matrix_abs2s[i].T()<<")"<<setw(DISTANCE)<<"*"<<setw(DISTANCE)<<"("<<max_matrix[i]<<")"<<endl;
     }
 }
 

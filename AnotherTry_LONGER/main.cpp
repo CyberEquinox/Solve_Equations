@@ -1,16 +1,32 @@
-#include"SolveMatrix.h"
 #include<iostream>
+#include"SolveMatrix.h"
+#include"matrix.h"
+#include"create.h"
+#include<fstream>
+#include<vector>
 using namespace std;
 int main()
 {
-    cout<<"Solve Equations like:\n\tMatrix(m,n)*X=0\nInput the size of Equations Matrix(m,n):";
-    int m=0,n=0;
-    cin>>m>>n;
-    matrix Equation(m,n);
-    cout<<"Input the Equations Matrix("<<m<<","<<n<<"):\n";
-    cin>>Equation;
-    SolveMatrix Sol(Equation);
-    Sol.SolveEquations();
+    ofstream file("out.txt");
+    matrix Equations(13,13);
+    cout<<"Input your ID(12 numbers)##Please separate them with spaces##:";
+    int ID[12]={};
+    for(int i=0;i<12;i++)
+    {
+        cin>>ID[i];
+    }
+    generateMatrix(ID,Equations,12);
+    SolveMatrix Solve(Equations);
+    Solve.SolveEquations(file,22);
+    double_matrix A(Equations+Equations.Trans());
+    vector<double> eigenvalues=jacobi_rotation(A,0.1);
+    file<<"Eigenvalues are:"<<endl;
+    for(double eigen:eigenvalues)
+    {
+        file<<eigen<<"\t";
+    }
+    file.close();
+    cout<<"Output in file : \"./out.txt\"\n";
     system("pause");
     return 0;
 }
