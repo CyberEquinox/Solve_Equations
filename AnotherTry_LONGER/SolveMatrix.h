@@ -82,6 +82,7 @@ void SolveMatrix::TurnAColToZero(int StartRow,int Col)
         if(MAT[i][Col]!=0)
         {
             DET*=MAT[i][Col];
+
             break;
             //MAT[i]/=MAT[i][Col];
         }else
@@ -118,9 +119,10 @@ void SolveMatrix::SecondStep(std::ostream& os)
     }else
     {
         Second=1;
-        for(int i=CountOfMain-1;i>0;i--)
+        for(int i=CountOfMain-1;i>=0;i--)
         {
             row &MAINROW=MAT[mainptr[i].x];
+            MAINROW/=MAINROW[mainptr[i].y];
             int CurrentCol=mainptr[i].y;
             for(int j=mainptr[i].x-1;j>=0;j--)
             {
