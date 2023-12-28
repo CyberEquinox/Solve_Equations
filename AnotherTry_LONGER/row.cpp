@@ -116,4 +116,17 @@ row row::operator +() const
     return *this;
 }
 
+fraction row::operator * (const row& obj) const
+{
+    if(obj.size != size)
+    {
+        throw std::runtime_error("Size difference in row * row");
+    }
+    fraction res=1;
+    for(int i=0;i<size;i++)
+    {
+        res *= Row[i]*obj[i];
+    }
+    return res;
+}
 #endif
